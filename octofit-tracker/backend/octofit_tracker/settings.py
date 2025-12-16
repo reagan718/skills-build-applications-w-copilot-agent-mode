@@ -25,29 +25,29 @@ SECRET_KEY = 'django-insecure-438dlsrib1*cbnond)vvz06l$vw@+)b*562mwn@7l*x^ulyc1f
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-
-    # Third-party
-    'rest_framework',
-    'rest_framework.authtoken',
-    'corsheaders',
-    'dj_rest_auth',
-    'allauth',
-    'django.contrib.sites',
-
-    # Local apps
-    'tracker_core',
+       'django.contrib.admin',
+       'django.contrib.auth',
+       'django.contrib.contenttypes',
+       'django.contrib.sessions',
+       'django.contrib.messages',
+       'django.contrib.staticfiles',
+        
+       # Third-party
+       'rest_framework',
+       'rest_framework.authtoken',
+       'corsheaders',
+       'dj_rest_auth',
+       'djongo',
+        
+       # Local apps
+       'tracker_core',
+       'octofit_tracker',
 ]
 
 MIDDLEWARE = [
@@ -67,6 +67,9 @@ SITE_ID = 1
 
 # CORS (dev-friendly defaults)
 CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_HEADERS = ['*']
+CORS_ALLOW_METHODS = ['*']
 
 # REST framework default (empty for now)
 REST_FRAMEWORK = {}
@@ -97,8 +100,12 @@ WSGI_APPLICATION = 'octofit_tracker.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'djongo',
+        'NAME': 'octofit_db',
+        'ENFORCE_SCHEMA': False,
+        'CLIENT': {
+            'host': 'mongodb://localhost:27017',
+        },
     }
 }
 

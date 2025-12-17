@@ -44,3 +44,29 @@ class Activity(models.Model):
 
     def __str__(self):
         return f"{self.user} - {self.activity_type} @ {self.timestamp.date()}"
+
+
+    class Workout(models.Model):
+        """A workout suggestion or template."""
+        name = models.CharField(max_length=120)
+        description = models.TextField(blank=True)
+        duration_minutes = models.PositiveIntegerField(help_text="Duration in minutes")
+
+        def __str__(self):
+            return self.name
+
+
+    class LeaderboardEntry(models.Model):
+        """Leaderboard entry for a user."""
+        user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="leaderboard_entries")
+        score = models.PositiveIntegerField(default=0)
+        team = models.ForeignKey(Team, on_delete=models.CASCADE, related_name="leaderboard_entries", null=True, blank=True)
+        last_updated = models.DateTimeField(auto_now=True)
+
+        class Meta:
+            verbose_name = "Leaderboard Entry"
+            verbose_name_plural = "Leaderboard Entries"
+            ordering = ["-score", "-last_updated"]
+
+        def __str__(self):
+            return f"{self.user} - {self.score}"
